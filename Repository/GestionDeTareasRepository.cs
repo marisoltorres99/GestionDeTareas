@@ -15,15 +15,26 @@ namespace GestionDeTareas.Repository
         }
         public async Task<bool> CrearTareaAsync(string titulo, string descripcion)
         {
-            Tareas tarea = new Tareas();
-            tarea.Titulo = titulo;
-            tarea.Descripcion = descripcion;
-            tarea.Completada = false;
-            tarea.UsuarioId = 3;
-            var nuevaTarea = await _dataContext.Tareas.AddAsync(tarea);
-            var resultado = await _dataContext.SaveChangesAsync();
+            try
+            {
+                var tarea = new Tareas
+                {
+                    Titulo = titulo,
+                    Descripcion = descripcion,
+                    Completada = false,
+                    UsuarioId = 3
+                };
 
-            return (resultado > 0);
+                await _dataContext.Tareas.AddAsync(tarea);
+                var resultado = await _dataContext.SaveChangesAsync();
+
+                return resultado > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }
