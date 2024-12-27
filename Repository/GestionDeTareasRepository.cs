@@ -13,10 +13,17 @@ namespace GestionDeTareas.Repository
             _dataContext = dataContext;
 
         }
-        public async Task<List<Usuarios>> ObtenerTodosLosUsuarios()
+        public async Task<bool> CrearTareaAsync(string titulo, string descripcion)
         {
-            var result = await _dataContext.Usuarios.ToListAsync();
-            return result;
+            Tareas tarea = new Tareas();
+            tarea.Titulo = titulo;
+            tarea.Descripcion = descripcion;
+            tarea.Completada = false;
+            tarea.UsuarioId = 3;
+            var nuevaTarea = await _dataContext.Tareas.AddAsync(tarea);
+            var resultado = await _dataContext.SaveChangesAsync();
+
+            return (resultado > 0);
         }
     }
 }

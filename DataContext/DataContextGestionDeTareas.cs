@@ -10,5 +10,6 @@ namespace GestionDeTareas.DataContext
 
         }
         public DbSet<Usuarios> Usuarios { get; set; }
+        public DbSet<Tareas> Tareas { get; set; }
     }
 }

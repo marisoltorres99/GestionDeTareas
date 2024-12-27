@@ -16,11 +16,15 @@ namespace GestionDeTareas.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
-        [Route("api/TodosLosEmpleados")]
-        public async Task<List<Usuarios>> ObtenerTodosLosUsuarios()
+        [HttpPut("CrearTareaAsync")]
+        public async Task<IActionResult> CrearTareaAsync([FromQuery] string titulo, [FromQuery] string descripcion)
         {
-            return await _repository.ObtenerTodosLosUsuarios();
+            var resultado = await _repository.CrearTareaAsync(titulo, descripcion);
+
+            if (resultado)
+                return Ok("La tarea se creó exitosamente.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, "Hubo un error al crear la tarea.");
         }
     }
 }

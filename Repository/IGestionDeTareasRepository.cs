@@ -4,6 +4,6 @@ namespace GestionDeTareas.Repository
 {
     public interface IGestionDeTareasRepository
     {
-        Task<List<Usuarios>> ObtenerTodosLosUsuarios();
+        Task<bool> CrearTareaAsync(string titulo, string descripcion);
     }
 }
