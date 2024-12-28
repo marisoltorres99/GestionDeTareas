@@ -22,14 +22,8 @@ namespace GestionDeTareas.Controllers
             if (usuario == null)
                 return Unauthorized("Usuario o contraseña incorrectos.");
 
-            // Generar un token (o simplemente devolver el ID de usuario para simplicidad inicial)
+            // devuelve el ID del usuario si la contraseña y el usuario son correctos
             return Ok(new { UsuarioId = usuario.Id });
         }
-    }
-
-    public class LoginRequest
-    {
-        public string Usuario { get; set; }
-        public string Contraseña { get; set; }
     }
 }
