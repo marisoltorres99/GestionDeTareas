@@ -69,5 +69,31 @@ namespace GestionDeTareas.Repository
                 return false;
             }
         }
+
+        public async Task<Tareas> ObtenerTareaPorIdAsync(int tareaId)
+        {
+            return await _dataContext.Tareas.FirstOrDefaultAsync(t => t.Id == tareaId);
+        }
+
+        public async Task<bool> ModificarTareaAsync(int tareaId, string titulo, string descripcion, bool completada)
+        {
+            try
+            {
+                var tareaExistente = await _dataContext.Tareas.FirstOrDefaultAsync(t => t.Id == tareaId);
+                if (tareaExistente == null) return false;
+
+                tareaExistente.Titulo = titulo;
+                tareaExistente.Descripcion = descripcion;
+                tareaExistente.Completada = completada;
+                var resultado = await _dataContext.SaveChangesAsync();
+
+                return resultado > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

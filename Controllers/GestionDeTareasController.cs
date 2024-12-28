@@ -49,5 +49,26 @@ namespace GestionDeTareas.Controllers
             else
                 return StatusCode(StatusCodes.Status500InternalServerError, "Hubo un error al crear la tarea.");
         }
+
+        [HttpGet("ObtenerTarea")]
+        public async Task<IActionResult> ObtenerTarea([FromQuery] int tareaId)
+        {
+            var tarea = await _repository.ObtenerTareaPorIdAsync(tareaId);
+            if (tarea == null)
+                return NotFound("La tarea no existe.");
+
+            return Ok(tarea);
+        }
+
+        [HttpPut("ModificarTareaAsync")]
+        public async Task<IActionResult> ModificarTareaAsync([FromBody] UpdateTareaRequest request)
+        {
+            var resultado = await _repository.ModificarTareaAsync(request.TareaId, request.Titulo, request.Descripcion, request.Completada);
+
+            if (resultado)
+                return Ok("La tarea se modificó exitosamente.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, "Hubo un error al modificar la tarea.");
+        }
     }
 }
